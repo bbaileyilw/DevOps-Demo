@@ -51,7 +51,7 @@
                         },
                                   'Sending out the JUNIT report' :
                                   {                  
-                                     echo "Test email" /*emailext body: 'Junits reporting getting archived', subject: 'junit update', to: 'devops81@gmail.com'*/
+                                     echo "Test email" /*emailext body: 'Junits reporting getting archived', subject: 'junit update', to: 'wbbjenkins.training@gmail.com'*/
                                  }
                                           
                                        
@@ -93,7 +93,7 @@
                         }
                         steps {
                             echo "Test notification"  
-                                    emailext body: '$DEFAULT_CONTENT', subject: '$DEFAULT_SUBJECT', to: 'devops81@gmail.com'
+                                    emailext body: '$DEFAULT_CONTENT', subject: '$DEFAULT_SUBJECT', to: 'wbbjenkins.training@gmail.com'
                                     
             
                             

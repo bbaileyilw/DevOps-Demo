@@ -1,6 +1,6 @@
             pipeline {
                         environment {
-                                    EMAIL_TO = 'devops81@gmail.com'
+                                    EMAIL_TO = 'wbbjenkins.training@gmail.com'
                                     registry = "wbbdocker1/devops"
                                     registryCredential = 'dockerhub'
                                     dockerImage = ''
@@ -45,7 +45,7 @@
                       stage ('Generate JUNIT REPORT') {
                          steps {
                               parallel ( 
-                                  'Archeiving the reports': 
+                                  'Archiving the reports': 
                         {
                             junit 'examples/feed-combiner-java8-webapp/target/surefire-reports/*.xml'
                             

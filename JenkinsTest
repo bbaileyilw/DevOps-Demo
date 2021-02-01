@@ -84,7 +84,7 @@
                     stage ('Deploy the application') {
                         steps {
                            
-                            echo 'Deploy steps'
+                            echo 'Deploy Stages'
                             
                         }
                     }

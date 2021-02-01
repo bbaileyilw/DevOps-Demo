@@ -84,7 +84,7 @@
                     stage ('Deploy the application') {
                         steps {
                            
-                            echo 'I can copy stuffs here'
+                            echo 'Deploy steps'
                             
                         }
                     }

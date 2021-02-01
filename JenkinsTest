@@ -89,19 +89,19 @@
                     }
                     
          
- stage('Send email') {
-     steps {       
-    def mailRecipients = "wbbjenkins.training@gmail.com"
-    def jobName = currentBuild.fullDisplayName
+            stage('Send email') {
+                        steps {       
+                        def mailRecipients = "wbbjenkins.training@gmail.com"
+                        def jobName = currentBuild.fullDisplayName
 
-    emailext body: '''${SCRIPT, template="francois.email.groovy.template"}''',
-        mimeType: 'text/html',
-        subject: "[Jenkins] ${jobName}",
-        to: "${mailRecipients}",
-        replyTo: "${mailRecipients}",
-        recipientProviders: [[$class: 'CulpritsRecipientProvider']]
-}
-     }        
+                        emailext body: '''${SCRIPT, template="francois.email.groovy.template"}''',
+                        mimeType: 'text/html',
+                        subject: "[Jenkins] ${jobName}",
+                        to: "${mailRecipients}",
+                        replyTo: "${mailRecipients}",
+                        recipientProviders: [[$class: 'CulpritsRecipientProvider']]
+                        }
+             }        
                  /*  stage ('Send slack notification')
                             {
                                         steps 

@@ -1,5 +1,6 @@
             pipeline {
                         environment {
+                                    EMAIL_TO = 'devops81@gmail.com'
                                     registry = "wbbdocker1/devops"
                                     registryCredential = 'dockerhub'
                                     dockerImage = ''
@@ -89,29 +90,37 @@
                     }
                     
          
-            stage('Send email') {
-                        steps {       
-                        def mailRecipients = "wbbjenkins.training@gmail.com"
-                        def jobName = currentBuild.fullDisplayName
 
-                        emailext body: '''${SCRIPT, template="francois.email.groovy.template"}''',
-                        mimeType: 'text/html',
-                        subject: "[Jenkins] ${jobName}",
-                        to: "${mailRecipients}",
-                        replyTo: "${mailRecipients}",
-                        recipientProviders: [[$class: 'CulpritsRecipientProvider']]
-                        }
-             }        
-                 /*  stage ('Send slack notification')
-                            {
-                                        steps 
-                                        {
-                                                   slackSend baseUrl: 'https://hooks.slack.com/services/', channel: '#krishnademo', color: 'good', message: '"#439FE0", message: "Build Started: ${env.JOB_NAME} ${env.BUILD_NUMBER}"', teamDomain: 'devops81', tokenCredentialId: 'SlackKrishnademo'
-                                        }
-                            }*/
+    
+           
                     
                   
                 }
+                       
+   post {
+               always {
+                          emailext body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n The build changes:\n ${env.changes}\n More info at: ${env.BUILD_URL}",
+                recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']],
+                subject: "Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}"
+                           
+               }
+        failure {
+            emailext body: 'Check console output at ${env.BUILD_URL} to view the results. \n\n ${env.CHANGES} \n\n -------------------------------------------------- \n${BUILD_LOG, maxLines=100, escapeHtml=false}', 
+                    to: "${EMAIL_TO}", 
+                    subject: 'Build failed in Jenkins:  ${env.JOB_NAME} - ${env.BUILD_NUMBER}'
+        }
+        unstable {
+            emailext body: 'Check console output at ${env.BUILD_URL} to view the results. \n\n ${env.CHANGES} \n\n -------------------------------------------------- \n${BUILD_LOG, maxLines=100, escapeHtml=false}', 
+                    to: "${EMAIL_TO}", 
+                    subject: 'Unstable build in Jenkins: ${env.JOB_NAME} - ${env.BUILD_NUMBER}'
+        }
+        changed {
+            emailext body: 'Check console output at ${env.BUILD_URL} to view the results.', 
+                    to: "${EMAIL_TO}", 
+                    subject: 'Jenkins build is back to normal: ${env.JOB_NAME} - ${env.BUILD_NUMBER}'
+        }
+    
+}
                 
                 
             }
